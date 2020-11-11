@@ -11,6 +11,15 @@
       <input type="text" class="form-control" id="name" placeholder="Enter Task Name" name="name">
     </div>
     <div class="form-group">
+      <label for="pwd">Category:</label>
+      <select name="category_id">
+        <option selected disabled>Select Category</option>
+          @foreach($categories as $cat)
+          <option value="{{$cat->id}}">{{$cat->name}}</option>
+          @endforeach
+      </select>
+    </div>
+    <div class="form-group">
       <label for="pwd">Is Complete:</label>
       <select name="is_complete">
         <option selected disabled>Select</option>

@@ -57,6 +57,13 @@
         <li><a href="{{route('task.create')}}">  
             Add Task
         </a>
+        <li><a href="{{route('taskcategory.create')}}">  
+            Add Task Category
+        </a>
+        </li>
+        <li><a href="{{route('taskcategory.index')}}">  
+            Category List
+        </a>
         </li>
         @endif
         @endif
@@ -82,7 +89,6 @@
         </ul>
     </div>
     </nav>
-
     @yield('content')
 
  {{--       <div class="min-h-screen bg-gray-100">
