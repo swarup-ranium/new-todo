@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Validator;
-
-use App\Models\Task;
-
-use App\Models\TaskCategory;
-
 use Auth;
-
 use Session;
+use App\Models\Task;
+use Illuminate\Http\Request;
+use App\Models\TaskCategory;
+use App\Http\Requests\TaskStoreRequest;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -21,30 +17,32 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $taskList = Task::where('user_id',Auth::user()->id)->get();
-        $categoryList = TaskCategory::all();
+        if (isset($request->filter_id)) {
+            $taskList = Task::where(['user_id' => Auth::user()->id, 'category_id' => $request->filter_id])->get();
+        } else {
+            $taskList = Task::where('user_id', Auth::user()->id)->get();
+        }
 
-        return view('Task.dashboard',compact('taskList','categoryList'));
+        $categoryList = TaskCategory::where('user_id', Auth::user()->id)->get();
+
+        return view('task.dashboard', compact('taskList', 'categoryList'));
     }
 
-    public function changeStatus(Request $request) 
+    public function changeStatus(Request $request)
     {
         $task = Task::find($request->id);
 
-        if($task->is_complete == 0) 
-        {
+        if ($task->is_complete == 0) {
             $task->is_complete = 1;
-        }
-        else 
-        {
+        } else {
             $task->is_complete = 0;
         }
 
         $task->save();
 
-        return redirect()->route('task.index')->with('success','Status Updated successfully!');
+        return redirect()->route('task.index')->with('success', 'Status Updated successfully!');
     }
 
     /**
@@ -54,8 +52,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-       $categories = TaskCategory::all();
-       return view('Task.create',compact('categories'));
+        $categories = TaskCategory::where('user_id', Auth::user()->id)->get();
+
+        return view('task.create', compact('categories'));
     }
 
     /**
@@ -64,28 +63,16 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskStoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required','max:255'],
-            'category_id' => ['required'],
-            'is_complete' => ['required'],
-        ]);
+        $task = new Task;
+        $task->user_id = Auth::user()->id;
+        $task->name = $request->name;
+        $task->category_id = $request->category_id;
+        $task->is_complete = $request->is_complete;
+        $task->save();
 
-        if ($validator->fails()) {
-            return redirect()->route('task.create')
-            ->withInput()
-            ->withErrors($validator);
-      }
-
-      $task = new Task;
-      $task->user_id = Auth::user()->id;
-      $task->name = $request->name;
-      $task->category_id = $request->category_id;
-      $task->is_complete = $request->is_complete;
-      $task->save();
-
-      return redirect()->route('task.index')->with('success','Data Added successfully!');
+        return redirect()->route('task.index')->with('success', 'Data Added successfully!');
     }
 
     /**
@@ -105,12 +92,11 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Task $task)
     {
-        $task = Task::find($id);
-        $categories = TaskCategory::all();
+        $categories = TaskCategory::where('user_id', Auth::user()->id)->get();
 
-        return view('Task.edit',compact('task','categories'));
+        return view('task.edit', compact('task', 'categories'));
     }
 
     /**
@@ -120,27 +106,14 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TaskStoreRequest $request, Task $task)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required','max:255'],
-            'category_id' => ['required'],
-            'is_complete' => ['required'],
-            ]);
-
-            if ($validator->fails()) {
-                return redirect()->route('task.edit',$id)
-                ->withInput()
-                ->withErrors($validator);
-        }
-
-        $task = Task::find($id);
         $task->name = $request->name;
         $task->category_id = $request->category_id;
         $task->is_complete = $request->is_complete;
         $task->save();
 
-        return redirect()->route('task.index')->with('success','Data Updated successfully!');
+        return redirect()->route('task.index')->with('success', 'Data Updated successfully!');
     }
 
     /**
@@ -149,9 +122,8 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        $task = Task::find($id);
         $task->delete();
 
         return redirect()->route('task.index')->with('success', 'Data Deleted Successfully!!!!');

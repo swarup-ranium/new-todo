@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Validator;
-
 use App\Models\TaskCategory;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TaskCategoryStoreRequest;
 
 class TaskCategoriesController extends Controller
 {
@@ -17,26 +17,8 @@ class TaskCategoriesController extends Controller
      */
     public function index()
     {
-        $categoryList = TaskCategory::all();
-        return view('TaskCategory.index',compact('categoryList'));
-    }
-
-    public function changeStatus(Request $request) 
-    {
-        $taskCategory = TaskCategory::find($request->id);
-
-        if($taskCategory->status == 0) 
-        {
-            $taskCategory->status = 1;
-        } 
-        else  
-        {
-            $taskCategory->status = 0;
-        }
-
-        $taskCategory->save();
-
-        return redirect()->route('taskcategory.index')->with('success','Status Updated successfully!');
+        $categoryList = TaskCategory::where('user_id', Auth::user()->id)->get();
+        return view('task-category.index', compact('categoryList'));
     }
 
     /**
@@ -46,7 +28,7 @@ class TaskCategoriesController extends Controller
      */
     public function create()
     {
-        return view('TaskCategory.create');
+        return view('task-category.create');
     }
 
     /**
@@ -55,24 +37,14 @@ class TaskCategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskCategoryStoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'max:255'],
-            'status' => ['required'],
-        ]);
+        $taskCategory = new TaskCategory;
+        $taskCategory->user_id = Auth::user()->id;
+        $taskCategory->name = $request->name;
+        $taskCategory->save();
 
-        if ($validator->fails()) {
-            return redirect()->route('taskcategory.create')
-            ->withInput()
-            ->withErrors($validator);
-      }
-      $taskCategory = new TaskCategory;
-      $taskCategory->name = $request->name;
-      $taskCategory->status = $request->status;
-      $taskCategory->save();
-
-      return redirect()->route('taskcategory.index')->with('success','Data Added successfully!');
+        return redirect()->route('taskcategory.index')->with('success', 'Data Added successfully!');
     }
 
     /**
@@ -92,11 +64,11 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
         $taskCategory = TaskCategory::find($id);
-
-        return view('TaskCategory.edit',compact('taskCategory'));
+        return view('task-category.edit', compact('taskCategory'));
     }
 
     /**
@@ -106,25 +78,13 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TaskCategoryStoreRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'max:255'],
-            'status' => ['required'],
-        ]);
+        $taskCategory = TaskCategory::find($id);
+        $taskCategory->name = $request->name;
+        $taskCategory->save();
 
-        if ($validator->fails()) {
-            return redirect()->route('taskcategory.edit',$id)
-            ->withInput()
-            ->withErrors($validator);
-      }
-
-      $taskCategory = TaskCategory::find($id);
-      $taskCategory->name = $request->name;
-      $taskCategory->status = $request->status;
-      $taskCategory->save();
-
-      return redirect()->route('taskcategory.index')->with('success','Data Updated successfully!');
+        return redirect()->route('taskcategory.index')->with('success', 'Data Updated successfully!');
     }
 
     /**
