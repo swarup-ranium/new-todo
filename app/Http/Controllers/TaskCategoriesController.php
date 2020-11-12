@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\TaskCategory;
 use Illuminate\Support\Facades\Validator;
@@ -17,8 +18,9 @@ class TaskCategoriesController extends Controller
      */
     public function index()
     {
-        $categoryList = TaskCategory::where('user_id', Auth::user()->id)->get();
-        return view('task-category.index', compact('categoryList'));
+        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
+        $categories = $user[0]->taskCategories;
+        return view('task-category.index', compact('categories'));
     }
 
     /**

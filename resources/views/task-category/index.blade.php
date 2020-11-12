@@ -7,7 +7,7 @@
   <div class="container">
     <table class="table table-hover">
       <thead>
-        @if($categoryList->count() > 0)
+        @if($categories->count() > 0)
         <tr>
           <th>Id</th>
           <th>Name</th>
@@ -17,8 +17,8 @@
         @endif
       </thead>
       <tbody>
-        @if($categoryList->count() > 0)
-        @foreach($categoryList as $cat)
+        @if($categories->count() > 0)
+        @foreach($categories as $cat)
         <tr>
           <td>{{$cat->id}}</td>
           <td>{{$cat->name}}</td>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Session;
+use App\Models\User;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\TaskCategory;
@@ -20,17 +20,18 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         if (isset($request->filter_id)) {
-            $taskList = Task::where(['user_id' => Auth::user()->id, 'category_id' => $request->filter_id])->get();
+            $tasks = Task::with('user')->where(['user_id' => Auth::user()->id, 'category_id' => $request->filter_id])->get();
         } else {
-            $taskList = Task::where('user_id', Auth::user()->id)->get();
+            $tasks = Task::with('user')->where('user_id', Auth::user()->id)->get();
         }
 
-        $categoryList = TaskCategory::where('user_id', Auth::user()->id)->get();
+        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
+        $categories = $user[0]->taskCategories;
 
-        return view('task.dashboard', compact('taskList', 'categoryList'));
+        return view('task.dashboard', compact('tasks', 'categories'));
     }
 
-    public function changeStatus(Request $request)
+    public function toggleCompleted(Request $request)
     {
         $task = Task::find($request->id);
 
@@ -52,7 +53,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $categories = TaskCategory::where('user_id', Auth::user()->id)->get();
+        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
+        $categories = $user[0]->taskCategories;
 
         return view('task.create', compact('categories'));
     }
@@ -94,7 +96,8 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $categories = TaskCategory::where('user_id', Auth::user()->id)->get();
+        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
+        $categories = $user[0]->taskCategories;
 
         return view('task.edit', compact('task', 'categories'));
     }

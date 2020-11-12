@@ -16,18 +16,12 @@ use App\Http\Controllers\TaskCategoriesController;
 */
 
 Route::get('/', function () {
-    return view('Task.home');
+    return view('task.home');
 });
 
-Route::get('update-password', function () {
-    return view('profile.update-password-form');
-})->name('update-password');
-
-Route::get('task/change-status/{id}', [Taskcontroller::class,'changeStatus'])->name('task-change-status');
+Route::get('task/toggle-completed/{id}', [Taskcontroller::class,'toggleCompleted'])->name('task-toggle-completed');
 
 Route::resource('task', TaskController::class);
-
-Route::get('taskcategory/change-status', [TaskCategoriesController::class,'changeStatus'])->name('taskcategory-change-status');
 
 Route::resource('taskcategory', TaskCategoriesController::class);
 
