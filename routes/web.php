@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('task.home');
 });
 
-Route::get('task/toggle-completed/{id}', [Taskcontroller::class,'toggleCompleted'])->name('task-toggle-completed');
+Route::get('task/toggle-completed/{task}', [Taskcontroller::class,'toggleCompleted'])->name('task-toggle-completed');
 
 Route::resource('task', TaskController::class);
 

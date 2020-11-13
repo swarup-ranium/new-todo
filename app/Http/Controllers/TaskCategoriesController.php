@@ -18,8 +18,8 @@ class TaskCategoriesController extends Controller
      */
     public function index()
     {
-        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
-        $categories = $user[0]->taskCategories;
+        $categories = auth()->user()->taskCategories;
+        
         return view('task-category.index', compact('categories'));
     }
 
@@ -67,10 +67,9 @@ class TaskCategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit($id)
+    public function edit(TaskCategory $taskcategory)
     {
-        $taskCategory = TaskCategory::find($id);
-        return view('task-category.edit', compact('taskCategory'));
+        return view('task-category.edit', compact('taskcategory'));
     }
 
     /**
@@ -80,11 +79,10 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskCategoryStoreRequest $request, $id)
+    public function update(TaskCategoryStoreRequest $request, TaskCategory $taskcategory)
     {
-        $taskCategory = TaskCategory::find($id);
-        $taskCategory->name = $request->name;
-        $taskCategory->save();
+        $taskcategory->name = $request->name;
+        $taskcategory->save();
 
         return redirect()->route('taskcategory.index')->with('success', 'Data Updated successfully!');
     }
@@ -95,10 +93,9 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TaskCategory $taskcategory)
     {
-        $taskCategory = TaskCategory::find($id);
-        $taskCategory->delete();
+        $taskcategory->delete();
 
         return redirect()->route('taskcategory.index')->with('success', 'Data Deleted Successfully!!!!');
     }

@@ -20,21 +20,18 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         if (isset($request->filter_id)) {
-            $tasks = Task::with('user')->where(['user_id' => Auth::user()->id, 'category_id' => $request->filter_id])->get();
+            $tasks = auth()->user()->task()->where('category_id', $request->filter_id)->get();
         } else {
-            $tasks = Task::with('user')->where('user_id', Auth::user()->id)->get();
+            $tasks = auth()->user()->task()->get();
         }
 
-        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
-        $categories = $user[0]->taskCategories;
+        $categories = auth()->user()->taskCategories;
 
         return view('task.dashboard', compact('tasks', 'categories'));
     }
 
-    public function toggleCompleted(Request $request)
+    public function toggleCompleted(Task $task)
     {
-        $task = Task::find($request->id);
-
         if ($task->is_complete == 0) {
             $task->is_complete = 1;
         } else {
@@ -53,8 +50,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
-        $categories = $user[0]->taskCategories;
+        $categories = auth()->user()->taskCategories;
 
         return view('task.create', compact('categories'));
     }
@@ -96,8 +92,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $user = User::where('id', Auth::user()->id)->with('taskCategories')->get();
-        $categories = $user[0]->taskCategories;
+        $categories = auth()->user()->taskCategories;
 
         return view('task.edit', compact('task', 'categories'));
     }
