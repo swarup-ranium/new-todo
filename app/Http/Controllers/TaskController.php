@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\TaskCategory;
-use App\Http\Requests\TaskStoreRequest;
+use App\Http\Requests\TaskSaveRequest;
 use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
@@ -61,7 +61,7 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskStoreRequest $request)
+    public function store(TaskSaveRequest $request)
     {
         $task = new Task;
         $task->user_id = $request->user()->id;
@@ -104,7 +104,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskStoreRequest $request, Task $task)
+    public function update(TaskSaveRequest $request, Task $task)
     {
         $task->name = $request->name;
         $task->task_category_id = $request->category_id;

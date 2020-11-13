@@ -39,12 +39,31 @@
         <tr>
           <td>{{$task->id}}</td>
           <td>{{$task->name}}</td>
-          <td> @foreach($categories as $cat) @if($cat->id == $task->category_id) {{ $cat->name }} @endif @endforeach
+          <td>
+            @foreach($categories as $cat)
+            @if($cat->id == $task->task_category_id)
+            {{ $cat->name }}
+            @endif
+            @endforeach
           </td>
-          <td> @if($task->is_complete == 0) <a href="{{route('task-toggle-completed',$task->id)}}"><span
-                class="btn btn-xs btn-danger"><i style="font-size:14px" class="fa">&#xf00d;</i></span></a> @else <a
-              href="{{route('task-toggle-completed',$task->id)}}"><span class="btn btn-xs btn-success"><i
-                  style="font-size:14px" class="fa">&#xf00c;</i></span></a> @endif </td>
+          <td> @if($task->is_complete == 0)
+            <form method="post" class="delete_form" action="{{route('task-toggle-completed',$task->id)}}">
+              {{csrf_field()}}
+              <input type="hidden" name="_method" value="PUT" />
+              <button type="submit" class="btn btn-xs btn-danger">
+                <i style="font-size:14px" class="fa">&#xf00d;</i>
+              </button>
+            </form>
+            @else
+            <form method="post" class="delete_form" action="{{route('task-toggle-completed',$task->id)}}">
+              {{csrf_field()}}
+              <input type="hidden" name="_method" value="PUT" />
+              <button type="submit" class="btn btn-xs btn-success">
+                <i style="font-size:14px" class="fa">&#xf00c;</i>
+              </button>
+            </form>
+            @endif
+          </td>
           <td><a href="{{route('task.edit',$task->id)}}" class="btn btn-xs btn-info"><span
                 class="glyphicon glyphicon-edit"></span></a></td>
           <td>

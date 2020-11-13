@@ -16,7 +16,7 @@
       <label for="pwd">Category:</label>
       <select name="category_id">
         @foreach($categories as $cat)
-        <option value="{{$cat->id}}" @if($task->category_id == $cat->id) selected @endif>{{$cat->name}}</option>
+        <option value="{{$cat->id}}" @if($task->task_category_id == $cat->id) selected @endif>{{$cat->name}}</option>
         @endforeach
       </select>
     </div>
