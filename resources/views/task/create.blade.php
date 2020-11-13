@@ -19,14 +19,14 @@
         @endforeach
       </select>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="pwd">Is Complete:</label>
       <select name="is_complete">
         <option selected disabled>Select</option>
         <option value="1">Yes</option>
         <option value="0">No</option>
       </select>
-    </div>
+    </div> -->
     <button type="submit" class="btn btn-default">Add</button>
   </form>
 </div>

@@ -26,7 +26,7 @@ class TaskSaveRequest extends FormRequest
         return [
             'name' => ['required','max:255'],
             'category_id' => ['required'],
-            'is_complete' => ['required'],
+            // 'is_complete' => ['required'],
         ];
     }
 }

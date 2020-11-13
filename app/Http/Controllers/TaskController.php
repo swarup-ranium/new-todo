@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\TaskCategory;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\TaskSaveRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,11 +37,13 @@ class TaskController extends Controller
 
     public function toggleCompleted(Task $task)
     {
-        $task->is_complete = ! $task->is_complete;
+        Gate::authorize('update', $task);
 
+        $task->is_complete = ! $task->is_complete;
         $task->save();
 
-        return redirect()->route('task.index')->with('success', 'Status Updated successfully!');
+        return redirect()->route('task.index')
+        ->with('success', 'Status Updated successfully!');
     }
 
     /**
@@ -67,10 +70,10 @@ class TaskController extends Controller
         $task->user_id = $request->user()->id;
         $task->name = $request->name;
         $task->task_category_id = $request->category_id;
-        $task->is_complete = $request->is_complete;
         $task->save();
 
-        return redirect()->route('task.index')->with('success', 'Data Added successfully!');
+        return redirect()->route('task.index')
+        ->with('success', 'Data Added successfully!');
     }
 
     /**
@@ -92,6 +95,8 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        Gate::authorize('view', $task);
+
         $categories = auth()->user()->taskCategories;
 
         return view('task.edit', compact('task', 'categories'));
@@ -106,12 +111,15 @@ class TaskController extends Controller
      */
     public function update(TaskSaveRequest $request, Task $task)
     {
+        Gate::authorize('update', $task);
+
         $task->name = $request->name;
         $task->task_category_id = $request->category_id;
         $task->is_complete = $request->is_complete;
         $task->save();
-
-        return redirect()->route('task.index')->with('success', 'Data Updated successfully!');
+    
+        return redirect()->route('task.index')
+            ->with('success', 'Data Updated successfully!');
     }
 
     /**
@@ -122,8 +130,11 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        Gate::inspect('delete', $task);
+
         $task->delete();
 
-        return redirect()->route('task.index')->with('success', 'Data Deleted Successfully!!!!');
+        return redirect()->route('task.index')
+            ->with('success', 'Data Deleted Successfully!!!!');
     }
 }
