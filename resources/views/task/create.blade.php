@@ -5,10 +5,19 @@
 <div class="container">
   <h2>Add Task</h2>
   <form action="{{route('task.store')}}" method="post">
-  @csrf
+    @csrf
     <div class="form-group">
       <label for="name">Task Name:</label>
       <input type="text" class="form-control" id="name" placeholder="Enter Task Name" name="name">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Category:</label>
+      <select name="category_id">
+        <option selected disabled>Select Category</option>
+        @foreach($categories as $cat)
+        <option value="{{$cat->id}}">{{$cat->name}}</option>
+        @endforeach
+      </select>
     </div>
     <div class="form-group">
       <label for="pwd">Is Complete:</label>

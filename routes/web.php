@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +15,17 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/', function() { return view('Task.home'); });
+Route::get('/', function () {
+    return view('task.home');
+});
 
-Route::get('/updatepassword', function() { return view('profile.update-password-form'); })->name('update.password');
+Route::group(['middleware' => 'auth'], function () {
+    Route::put('task/{task}/toggle-completed', [Taskcontroller::class,'toggleCompleted'])->name('task-toggle-completed');
 
-Route::get('task/changeStatus',[Taskcontroller::class,'changeStatus'])->name('task.changeStatus');
+    Route::resource('task', TaskController::class);
 
-Route::resource('task', TaskController::class);
+    Route::resource('taskCategory', TaskCategoriesController::class);
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
