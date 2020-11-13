@@ -60,11 +60,11 @@
                 <li><a href="{{route('task.create')}}">
                         Add Task
                     </a>
-                <li><a href="{{route('taskcategory.create')}}">
+                <li><a href="{{route('taskCategory.create')}}">
                         Add Task Category
                     </a>
                 </li>
-                <li><a href="{{route('taskcategory.index')}}">
+                <li><a href="{{route('taskCategory.index')}}">
                         Category List
                     </a>
                 </li>

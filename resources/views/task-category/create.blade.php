@@ -4,7 +4,7 @@
 @include('common.errors')
 <div class="container">
   <h2>Add Category</h2>
-  <form action="{{route('taskcategory.store')}}" method="post">
+  <form action="{{route('taskCategory.store')}}" method="post">
     @csrf
     <div class="form-group">
       <label for="name">Category Name:</label>

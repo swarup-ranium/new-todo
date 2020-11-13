@@ -24,7 +24,7 @@ class TaskController extends Controller
         $query = $user->tasks();
 
         if (isset($request->task_category_id)) {
-            $query->where('category_id', $request->task_category_id);
+            $query->where('task_category_id', $request->task_category_id);
         }
 
         $tasks = $query->get();
@@ -64,9 +64,9 @@ class TaskController extends Controller
     public function store(TaskStoreRequest $request)
     {
         $task = new Task;
-        $task->user_id = Auth::user()->id;
+        $task->user_id = $request->user()->id;
         $task->name = $request->name;
-        $task->category_id = $request->category_id;
+        $task->task_category_id = $request->category_id;
         $task->is_complete = $request->is_complete;
         $task->save();
 
@@ -107,7 +107,7 @@ class TaskController extends Controller
     public function update(TaskStoreRequest $request, Task $task)
     {
         $task->name = $request->name;
-        $task->category_id = $request->category_id;
+        $task->task_category_id = $request->category_id;
         $task->is_complete = $request->is_complete;
         $task->save();
 

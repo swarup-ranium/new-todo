@@ -22,10 +22,10 @@
         <tr>
           <td>{{$cat->id}}</td>
           <td>{{$cat->name}}</td>
-          <td><a href="{{route('taskcategory.edit',$cat->id)}}" class="btn btn-xs btn-info"><span
+          <td><a href="{{route('taskCategory.edit',$cat->id)}}" class="btn btn-xs btn-info"><span
                 class="glyphicon glyphicon-edit"></span></a></td>
           <td>
-            <form method="post" class="delete_form" action="{{route('taskcategory.destroy',$cat->id)}}">
+            <form method="post" class="delete_form" action="{{route('taskCategory.destroy',$cat->id)}}">
               {{csrf_field()}}
               <input type="hidden" name="_method" value="DELETE" />
               <button type="submit" class="btn btn-xs btn-danger"><span
