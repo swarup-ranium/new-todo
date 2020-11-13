@@ -63,11 +63,11 @@ class User extends Authenticatable
 
     public function taskCategories()
     {
-        return $this->hasMany('App\Models\TaskCategory');
+        return $this->hasMany(TaskCategory::class);
     }
 
-    public function task()
+    public function tasks()
     {
-        return $this->hasMany('App\Models\Task');
+        return $this->hasMany(Task::class);
     }
 }

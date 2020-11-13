@@ -9,7 +9,7 @@
       <div class="pull-right">
         <label for="pwd">Filter:</label>
 
-        <select onchange="event.preventDefault();this.closest('form').submit();" name="filter_id">
+        <select onchange="event.preventDefault();this.closest('form').submit();" name="task_category_id">
           <option>Select Category</option>
           <option value="">All</option>
           @foreach($categories as $catlist)

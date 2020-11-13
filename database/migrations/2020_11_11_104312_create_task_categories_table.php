@@ -16,7 +16,7 @@ class CreateTaskCategoriesTable extends Migration
         Schema::create('task_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('status');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

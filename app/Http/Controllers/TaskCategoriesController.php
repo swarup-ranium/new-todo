@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\TaskCategory;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\TaskCategoryStoreRequest;
+use App\Http\Requests\TaskCategorySaveRequest;
 
 class TaskCategoriesController extends Controller
 {
@@ -16,10 +16,10 @@ class TaskCategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = auth()->user()->taskCategories;
-        
+        $categories = $request->user()->taskCategories;
+
         return view('task-category.index', compact('categories'));
     }
 
@@ -39,14 +39,15 @@ class TaskCategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskCategoryStoreRequest $request)
+    public function store(TaskCategorySaveRequest $request)
     {
         $taskCategory = new TaskCategory;
-        $taskCategory->user_id = Auth::user()->id;
+        $taskCategory->user_id = $request->user()->id;
         $taskCategory->name = $request->name;
         $taskCategory->save();
 
-        return redirect()->route('taskcategory.index')->with('success', 'Data Added successfully!');
+        return redirect()->route('taskCategory.index')
+            ->with('success', 'Data Added successfully!');
     }
 
     /**
@@ -67,9 +68,9 @@ class TaskCategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit(TaskCategory $taskcategory)
+    public function edit(TaskCategory $taskCategory)
     {
-        return view('task-category.edit', compact('taskcategory'));
+        return view('task-category.edit', compact('taskCategory'));
     }
 
     /**
@@ -79,12 +80,13 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskCategoryStoreRequest $request, TaskCategory $taskcategory)
+    public function update(TaskCategorySaveRequest $request, TaskCategory $taskCategory)
     {
-        $taskcategory->name = $request->name;
-        $taskcategory->save();
+        $taskCategory->name = $request->name;
+        $taskCategory->save();
 
-        return redirect()->route('taskcategory.index')->with('success', 'Data Updated successfully!');
+        return redirect()->route('taskCategory.index')
+            ->with('success', 'Data Updated successfully!');
     }
 
     /**
@@ -93,10 +95,11 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskCategory $taskcategory)
+    public function destroy(TaskCategory $taskCategory)
     {
-        $taskcategory->delete();
+        $taskCategory->delete();
 
-        return redirect()->route('taskcategory.index')->with('success', 'Data Deleted Successfully!!!!');
+        return redirect()->route('taskCategory.index')
+            ->with('success', 'Data Deleted Successfully!!!!');
     }
 }

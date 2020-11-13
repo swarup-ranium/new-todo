@@ -19,24 +19,24 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        if (isset($request->filter_id)) {
-            $tasks = auth()->user()->task()->where('category_id', $request->filter_id)->get();
-        } else {
-            $tasks = auth()->user()->task()->get();
+        $user = auth()->user();
+
+        $query = $user->tasks();
+
+        if (isset($request->task_category_id)) {
+            $query->where('category_id', $request->task_category_id);
         }
 
-        $categories = auth()->user()->taskCategories;
+        $tasks = $query->get();
 
-        return view('task.dashboard', compact('tasks', 'categories'));
+        $categories = $user->taskCategories;
+
+        return view('task.index', compact('tasks', 'categories'));
     }
 
     public function toggleCompleted(Task $task)
     {
-        if ($task->is_complete == 0) {
-            $task->is_complete = 1;
-        } else {
-            $task->is_complete = 0;
-        }
+        $task->is_complete = ! $task->is_complete;
 
         $task->save();
 

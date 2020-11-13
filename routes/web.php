@@ -19,11 +19,13 @@ Route::get('/', function () {
     return view('task.home');
 });
 
-Route::get('task/toggle-completed/{task}', [Taskcontroller::class,'toggleCompleted'])->name('task-toggle-completed');
+Route::group(['middleware' => 'auth'], function () {
+    Route::put('task/{task}/toggle-completed', [Taskcontroller::class,'toggleCompleted'])->name('task-toggle-completed');
 
-Route::resource('task', TaskController::class);
+    Route::resource('task', TaskController::class);
 
-Route::resource('taskcategory', TaskCategoriesController::class);
+    Route::resource('taskCategory', TaskCategoriesController::class);
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
