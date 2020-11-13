@@ -37,7 +37,7 @@ class TaskController extends Controller
 
     public function toggleCompleted(Task $task)
     {
-        Gate::authorize('update', $task);
+        $this->authorize('update', $task);
 
         $task->is_complete = ! $task->is_complete;
         $task->save();
@@ -95,7 +95,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        Gate::authorize('view', $task);
+        $this->authorize('view', $task);
 
         $categories = auth()->user()->taskCategories;
 
@@ -111,7 +111,7 @@ class TaskController extends Controller
      */
     public function update(TaskSaveRequest $request, Task $task)
     {
-        Gate::authorize('update', $task);
+        $this->authorize('update', $task);
 
         $task->name = $request->name;
         $task->task_category_id = $request->category_id;
@@ -130,7 +130,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        Gate::inspect('delete', $task);
+        $this->authorize('delete', $task);
 
         $task->delete();
 

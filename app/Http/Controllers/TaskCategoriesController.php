@@ -71,7 +71,7 @@ class TaskCategoriesController extends Controller
 
     public function edit(TaskCategory $taskCategory)
     {
-        Gate::authorize('view', $taskCategory);
+        $this->authorize('view', $taskCategory);
 
         return view('task-category.edit', compact('taskCategory'));
     }
@@ -85,7 +85,7 @@ class TaskCategoriesController extends Controller
      */
     public function update(TaskCategorySaveRequest $request, TaskCategory $taskCategory)
     {
-        Gate::authorize('update', $taskCategory);
+        $this->authorize('update', $taskCategory);
 
         $taskCategory->name = $request->name;
         $taskCategory->save();
@@ -102,7 +102,7 @@ class TaskCategoriesController extends Controller
      */
     public function destroy(TaskCategory $taskCategory)
     {
-        Gate::authorize('delete', $taskCategory);
+        $this->authorize('delete', $taskCategory);
         $taskCategory->delete();
 
         return redirect()->route('taskCategory.index')
