@@ -6,6 +6,7 @@ use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\TaskCategory;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TaskCategorySaveRequest;
 
@@ -70,6 +71,8 @@ class TaskCategoriesController extends Controller
 
     public function edit(TaskCategory $taskCategory)
     {
+        $this->authorize('view', $taskCategory);
+
         return view('task-category.edit', compact('taskCategory'));
     }
 
@@ -82,6 +85,8 @@ class TaskCategoriesController extends Controller
      */
     public function update(TaskCategorySaveRequest $request, TaskCategory $taskCategory)
     {
+        $this->authorize('update', $taskCategory);
+
         $taskCategory->name = $request->name;
         $taskCategory->save();
 
@@ -97,6 +102,7 @@ class TaskCategoriesController extends Controller
      */
     public function destroy(TaskCategory $taskCategory)
     {
+        $this->authorize('delete', $taskCategory);
         $taskCategory->delete();
 
         return redirect()->route('taskCategory.index')
