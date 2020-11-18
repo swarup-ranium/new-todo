@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\Task;
 use App\Models\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -9,21 +10,25 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreateTaskTest extends DuskTestCase
 {
+    use DatabaseMigrations;
     /**
      * A Dusk test example.
      *
      * @return void
      */
-    public function testExample()
+    public function testCreateTask()
     {
-        $this->browse(function ($first) {
-            $first->loginAs(User::find(1))
+        $task = Task::factory()->make();
+        $this->browse(function ($first) use ($task) {
+            $first->loginAs($task->user_id)
             ->visit('/task/create')
             ->assertTitle('Laravel')
-            ->value('#name', 'Task #2')
-            ->select('category_id', '1')
+            ->value('#name', $task->name)
+            ->select('category_id', $task->task_category_id)
             ->press('Add')
-            ->assertPathIs('/task');
+            ->assertPathIs('/task')
+            ->assertSee('Data Added successfully!')
+            ->assertSee($task->name);
         });
     }
 }

@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class LoginTest extends DuskTestCase
+class InvalidLoginTest extends DuskTestCase
 {
     use DatabaseMigrations;
     /**
@@ -15,15 +15,16 @@ class LoginTest extends DuskTestCase
      *
      * @return void
      */
-    public function testLogin()
+    public function testInvalidLogin()
     {
-        $user = User::factory()->create(['password' => bcrypt('12345678')]);
+        $user = User::factory()->make();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/login')
                     ->type('email', $user->email)
-                    ->type('password', 12345678)
+                    ->type('password', $user->password)
                     ->press('LOGIN')
-                    ->assertPathIs('/task');
+                    ->assertSee('Whoops! Something went wrong')
+                    ->assertSee('These credentials do not match our records');
         });
     }
 }
