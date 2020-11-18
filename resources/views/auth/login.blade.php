@@ -2,7 +2,7 @@
     <x-jet-authentication-card>
         <x-slot name="logo">
             <!-- <x-jet-authentication-card-logo /> -->
-            <h1 style="font-size:26px;">Laravel</h1>
+            <h1 style="font-size:26px;">Login</h1>
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
