@@ -25,6 +25,9 @@ class CreateTaskTest extends DuskTestCase
             ->value('#name', $task->name)
             ->select('category_id', $task->task_category_id)
             ->press('Add')
+            ->assertDontSee('The name field is required')
+            ->assertDontSee('The category id field is required')
+            ->assertDontSee('Whoops! Something went wrong!')
             ->assertPathIs('/task')
             ->assertSee('Data Added successfully!')
             ->assertSee($task->name);

@@ -27,6 +27,9 @@ class RegisterTest extends DuskTestCase
                     ->value('#password', $user->password)
                     ->value('#password_confirmation', $user->password)
                     ->press('REGISTER')
+                    ->assertNotFocused('input[type=text]')
+                    ->assertNotFocused('input[type=email]')
+                    ->assertNotFocused('input[type=password]')
                     ->assertPathIs('/task');
         });
     }

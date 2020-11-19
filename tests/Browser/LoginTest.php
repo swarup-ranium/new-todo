@@ -23,6 +23,10 @@ class LoginTest extends DuskTestCase
                     ->type('email', $user->email)
                     ->type('password', 12345678)
                     ->press('LOGIN')
+                    ->assertNotFocused('input[type=email]')
+                    ->assertNotFocused('input[type=password]')
+                    ->assertDontSee('These credentials do not match our records')
+                    ->assertDontSee('Whoops! Something went wrong')
                     ->assertPathIs('/task');
         });
     }

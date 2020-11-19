@@ -24,6 +24,8 @@ class CreateTaskCategoryTest extends DuskTestCase
                     ->assertTitle('Laravel')
                     ->value('#name', $taskCategry->name)
                     ->press('Add')
+                    ->assertDontSee('The name field is required')
+                    ->assertDontSee('Whoops! Something went wrong!')
                     ->assertPathIs('/taskCategory')
                     ->assertSee('Data Added successfully!')
                     ->assertSee($taskCategry->name);
