@@ -7,7 +7,7 @@ use Laravel\Dusk\Browser;
 use App\Models\TaskCategory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class CreateTaskCategoryTest extends DuskTestCase
+class CreateTaskCategoryValidationTest extends DuskTestCase
 {
     use DatabaseMigrations;
     /**
@@ -15,18 +15,16 @@ class CreateTaskCategoryTest extends DuskTestCase
      *
      * @return void
      */
-    public function testCreateCategory()
+    public function testCreateCategoryValidation()
     {
         $taskCategry = TaskCategory::factory()->make();
         $this->browse(function (Browser $browser) use ($taskCategry) {
-            $browser->loginAs($taskCategry->user_id)
+            $browser->loginAs($taskCategry->id)
                     ->visit('/taskCategory/create')
                     ->assertTitle('Laravel')
-                    ->value('#name', $taskCategry->name)
                     ->press('Add')
-                    ->assertPathIs('/taskCategory')
-                    ->assertSee('Data Added successfully!')
-                    ->assertSee($taskCategry->name);
+                    ->assertSee('Whoops! Something went wrong!')
+                    ->assertSee('The name field is required');
         });
     }
 }
