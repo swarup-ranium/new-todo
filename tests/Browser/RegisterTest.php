@@ -21,16 +21,82 @@ class RegisterTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/register')
                     ->assertTitle('Laravel')
-                    // ->clickLink('Sign Up')
                     ->value('#name', $user->name)
                     ->value('#email', $user->email)
                     ->value('#password', $user->password)
                     ->value('#password_confirmation', $user->password)
                     ->press('REGISTER')
-                    ->assertNotFocused('input[type=text]')
-                    ->assertNotFocused('input[type=email]')
-                    ->assertNotFocused('input[type=password]')
                     ->assertPathIs('/task');
+        });
+    }
+
+    public function testAllFieldsEmpty()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/register')
+                    ->assertTitle('Laravel')
+                    ->press('REGISTER')
+                    ->assertFocused('input[type=text]');
+        });
+    }
+
+    public function testNameFieldEmpty()
+    {
+        $user = User::factory()->make();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->visit('/register')
+                    ->assertTitle('Laravel')
+                    ->value('#name', '')
+                    ->value('#email', $user->email)
+                    ->value('#password', $user->password)
+                    ->value('#password_confirmation', $user->password)
+                    ->press('REGISTER')
+                    ->assertFocused('input[type=text]');
+        });
+    }
+
+    public function testEmailFieldEmpty()
+    {
+        $user = User::factory()->make();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->visit('/register')
+                    ->assertTitle('Laravel')
+                    ->value('#name', $user->name)
+                    ->value('#email', '')
+                    ->value('#password', $user->password)
+                    ->value('#password_confirmation', $user->password)
+                    ->press('REGISTER')
+                    ->assertFocused('input[type=email]');
+        });
+    }
+
+    public function testPasswordFieldEmpty()
+    {
+        $user = User::factory()->make();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->visit('/register')
+                    ->assertTitle('Laravel')
+                    ->value('#name', $user->name)
+                    ->value('#email', $user->email)
+                    ->value('#password', '')
+                    ->value('#password_confirmation', $user->password)
+                    ->press('REGISTER')
+                    ->assertFocused('input[type=password]');
+        });
+    }
+
+    public function testConfirmPasswordFieldEmpty()
+    {
+        $user = User::factory()->make();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->visit('/register')
+                    ->assertTitle('Laravel')
+                    ->value('#name', $user->name)
+                    ->value('#email', $user->email)
+                    ->value('#password', $user->password)
+                    ->value('#password_confirmation', '')
+                    ->press('REGISTER')
+                    ->assertFocused('input[id=password_confirmation]');
         });
     }
 }

@@ -31,4 +31,17 @@ class CreateTaskCategoryTest extends DuskTestCase
                     ->assertSee($taskCategry->name);
         });
     }
+
+    public function testCheckAllFieldsEmpty()
+    {
+        $taskCategry = TaskCategory::factory()->make();
+        $this->browse(function (Browser $browser) use ($taskCategry) {
+            $browser->loginAs($taskCategry->user_id)
+                    ->visit('/taskCategory/create')
+                    ->assertTitle('Laravel')
+                    ->press('Add')
+                    ->assertSee('The name field is required')
+                    ->assertSee('Whoops! Something went wrong!');
+        });
+    }
 }

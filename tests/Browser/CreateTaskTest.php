@@ -33,4 +33,50 @@ class CreateTaskTest extends DuskTestCase
             ->assertSee($task->name);
         });
     }
+
+    public function testCheckAllFieldsEmpty()
+    {
+        $task = Task::factory()->make();
+        $this->browse(function (Browser $browser) use ($task) {
+            $browser->loginAs($task->user_id)
+            ->visit('/task/create')
+            ->assertTitle('Laravel')
+            ->value('#name', '')
+            ->select('category_id', '')
+            ->press('Add')
+            ->assertSee('The name field is required')
+            ->assertSee('The category id field is required')
+            ->assertSee('Whoops! Something went wrong!');
+        });
+    }
+
+    public function testCheckNameFieldEmpty()
+    {
+        $task = Task::factory()->make();
+        $this->browse(function (Browser $browser) use ($task) {
+            $browser->loginAs($task->user_id)
+            ->visit('/task/create')
+            ->assertTitle('Laravel')
+            ->value('#name', '')
+            ->select('category_id', $task->task_category_id)
+            ->press('Add')
+            ->assertSee('The name field is required')
+            ->assertSee('Whoops! Something went wrong!');
+        });
+    }
+
+    public function testCheckCategoryFieldEmpty()
+    {
+        $task = Task::factory()->make();
+        $this->browse(function (Browser $browser) use ($task) {
+            $browser->loginAs($task->user_id)
+            ->visit('/task/create')
+            ->assertTitle('Laravel')
+            ->value('#name', $task->name)
+            ->select('category_id', '')
+            ->press('Add')
+            ->assertSee('The category id field is required')
+            ->assertSee('Whoops! Something went wrong!');
+        });
+    }
 }
