@@ -4,5 +4,5 @@
 
 <register-component></register-component>
 
-@endsection
 
+@endsection
