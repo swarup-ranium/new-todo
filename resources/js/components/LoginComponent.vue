@@ -183,7 +183,4 @@ label {
     font-size: 90%;
     color: #e3342f;
 }
-.block {
-    display: block;
-}
 </style>
