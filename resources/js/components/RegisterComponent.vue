@@ -23,14 +23,14 @@
                                         required
                                         autocomplete="name"
                                         autofocus
-                                        v-model="name.val"
+                                        v-model="name"
                                     />
                                     <span
                                         class="invalid-feedback"
-                                        :class="{ block: name.isValid }"
                                         role="alert"
+                                        v-if="errors.name"
                                     >
-                                        <strong>{{ name.msg }}</strong>
+                                        <strong>{{ errors.name[0] }}</strong>
                                     </span>
                                 </div>
                             </div>
@@ -51,14 +51,14 @@
                                         value=""
                                         required
                                         autocomplete="email"
-                                        v-model="email.val"
+                                        v-model="email"
                                     />
                                     <span
                                         class="invalid-feedback"
-                                        :class="{ block: email.isValid }"
                                         role="alert"
+                                        v-if="errors.email"
                                     >
-                                        <strong>{{ email.msg }}</strong>
+                                        <strong>{{ errors.email[0] }}</strong>
                                     </span>
                                 </div>
                             </div>
@@ -78,14 +78,16 @@
                                         name="password"
                                         required
                                         autocomplete="new-password"
-                                        v-model="password.val"
+                                        v-model="password"
                                     />
                                     <span
                                         class="invalid-feedback"
-                                        :class="{ block: password.isValid }"
                                         role="alert"
+                                        v-if="errors.password"
                                     >
-                                        <strong>{{ password.msg }}</strong>
+                                        <strong>{{
+                                            errors.password[0]
+                                        }}</strong>
                                     </span>
                                 </div>
                             </div>
@@ -105,17 +107,15 @@
                                         name="password_confirmation"
                                         required
                                         autocomplete="new-password"
-                                        v-model="password_confirmation.val"
+                                        v-model="password_confirmation"
                                     />
                                     <span
                                         class="invalid-feedback"
-                                        :class="{
-                                            block: password_confirmation.isValid
-                                        }"
                                         role="alert"
+                                        v-if="errors.password"
                                     >
                                         <strong>{{
-                                            password_confirmation.msg
+                                            errors.password[1]
                                         }}</strong>
                                     </span>
                                 </div>
@@ -143,26 +143,11 @@
 export default {
     data() {
         return {
-            name: {
-                val: "",
-                msg: "",
-                isValid: false
-            },
-            email: {
-                val: "",
-                msg: "",
-                isValid: false
-            },
-            password: {
-                val: "",
-                isValid: false,
-                msg: ""
-            },
-            password_confirmation: {
-                val: "",
-                msg: "",
-                isValid: false
-            }
+            name: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
+            errors: {}
         };
     },
     methods: {
@@ -170,77 +155,17 @@ export default {
             let that = this;
             this.axios
                 .post("/register", {
-                    name: this.name.val,
-                    email: this.email.val,
-                    password: this.password.val,
-                    password_confirmation: this.password_confirmation.val
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                    password_confirmation: this.password_confirmation
                 })
                 .then(function(response) {
                     // alert(response);
                     window.location.href = "/task";
                 })
                 .catch(function(error) {
-                    if (error.response.data.errors.name !== undefined) {
-                        that.name.msg = error.response.data.errors.name;
-                        that.name.isValid = true;
-                    } else {
-                        that.name.msg = "";
-                        that.name.isValid = false;
-                    }
-                    if (error.response.data.errors.email !== undefined) {
-                        that.email.msg = error.response.data.errors.email[0];
-                        that.email.isValid = true;
-                    } else {
-                        that.email.msg = "";
-                        that.email.isValid = false;
-                    }
-                    if (error.response.data.errors.password !== undefined) {
-                        if (
-                            error.response.data.errors.password[0].search(
-                                "confirmation"
-                            ) < 0
-                        ) {
-                            if (
-                                error.response.data.errors.password[0] !==
-                                undefined
-                            ) {
-                                that.password.msg =
-                                    error.response.data.errors.password[0];
-                                that.password.isValid = true;
-                            } else {
-                                that.password.msg = "";
-                                that.password.isValid = false;
-                            }
-                            if (
-                                error.response.data.errors.password[1] !==
-                                undefined
-                            ) {
-                                that.password_confirmation.msg =
-                                    error.response.data.errors.password[1];
-                                that.password_confirmation.isValid = true;
-                            } else {
-                                that.password_confirmation.msg = "";
-                                that.password_confirmation.isValid = false;
-                            }
-                        } else {
-                            if (
-                                error.response.data.errors.password[0] !==
-                                undefined
-                            ) {
-                                that.password_confirmation.msg =
-                                    error.response.data.errors.password[0];
-                                that.password_confirmation.isValid = true;
-                            } else {
-                                that.password_confirmation.msg = "";
-                                that.password_confirmation.isValid = false;
-                            }
-                        }
-                    } else {
-                        that.password_confirmation.msg = "";
-                        that.password_confirmation.isValid = false;
-                        that.password.msg = "";
-                        that.password.isValid = false;
-                    }
+                    that.errors = error.response.data.errors;
                 })
                 .finally(() => (this.loading = false));
         }
@@ -281,7 +206,6 @@ label {
     padding: 1.25rem;
 }
 .invalid-feedback {
-    display: none;
     width: 100%;
     margin-top: 0.25rem;
     font-size: 90%;

@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::resource('vue', VueController::class);
-Route::get('vue/register', [VueController::class,'register'])->name('vue.register');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

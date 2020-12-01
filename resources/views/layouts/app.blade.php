@@ -84,7 +84,7 @@
                 </li>
                 @else
                 @if (Route::has('register'))
-                <li><a href="{{ route('vue.register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 @endif
                 <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 @endif

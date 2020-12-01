@@ -1912,6 +1912,100 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log("Component mounted.");
@@ -2073,26 +2167,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      name: {
-        val: "",
-        msg: "",
-        isValid: false
-      },
-      email: {
-        val: "",
-        msg: "",
-        isValid: false
-      },
-      password: {
-        val: "",
-        isValid: false,
-        msg: ""
-      },
-      password_confirmation: {
-        val: "",
-        msg: "",
-        isValid: false
-      }
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      errors: {}
     };
   },
   methods: {
@@ -2101,62 +2180,15 @@ __webpack_require__.r(__webpack_exports__);
 
       var that = this;
       this.axios.post("/register", {
-        name: this.name.val,
-        email: this.email.val,
-        password: this.password.val,
-        password_confirmation: this.password_confirmation.val
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.password_confirmation
       }).then(function (response) {
         // alert(response);
         window.location.href = "/task";
       })["catch"](function (error) {
-        if (error.response.data.errors.name !== undefined) {
-          that.name.msg = error.response.data.errors.name;
-          that.name.isValid = true;
-        } else {
-          that.name.msg = "";
-          that.name.isValid = false;
-        }
-
-        if (error.response.data.errors.email !== undefined) {
-          that.email.msg = error.response.data.errors.email[0];
-          that.email.isValid = true;
-        } else {
-          that.email.msg = "";
-          that.email.isValid = false;
-        }
-
-        if (error.response.data.errors.password !== undefined) {
-          if (error.response.data.errors.password[0].search("confirmation") < 0) {
-            if (error.response.data.errors.password[0] !== undefined) {
-              that.password.msg = error.response.data.errors.password[0];
-              that.password.isValid = true;
-            } else {
-              that.password.msg = "";
-              that.password.isValid = false;
-            }
-
-            if (error.response.data.errors.password[1] !== undefined) {
-              that.password_confirmation.msg = error.response.data.errors.password[1];
-              that.password_confirmation.isValid = true;
-            } else {
-              that.password_confirmation.msg = "";
-              that.password_confirmation.isValid = false;
-            }
-          } else {
-            if (error.response.data.errors.password[0] !== undefined) {
-              that.password_confirmation.msg = error.response.data.errors.password[0];
-              that.password_confirmation.isValid = true;
-            } else {
-              that.password_confirmation.msg = "";
-              that.password_confirmation.isValid = false;
-            }
-          }
-        } else {
-          that.password_confirmation.msg = "";
-          that.password_confirmation.isValid = false;
-          that.password.msg = "";
-          that.password.isValid = false;
-        }
+        that.errors = error.response.data.errors;
       })["finally"](function () {
         return _this.loading = false;
       });
@@ -2180,7 +2212,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "label[data-v-51f045bf] {\n  text-align: right;\n}\n.card[data-v-51f045bf] {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  word-wrap: break-word;\n  background-color: #fff;\n  background-clip: border-box;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n  border-radius: 0.25rem;\n}\n.card-header[data-v-51f045bf] {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 0;\n  background-color: rgba(0, 0, 0, 0.03);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n}\n.card-header[data-v-51f045bf]:first-child {\n  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;\n}\n.card-body[data-v-51f045bf] {\n  flex: 1 1 auto;\n  min-height: 1px;\n  padding: 1.25rem;\n}\n.invalid-feedback[data-v-51f045bf] {\n  display: none;\n  width: 100%;\n  margin-top: 0.25rem;\n  font-size: 90%;\n  color: #e3342f;\n}\n.block[data-v-51f045bf] {\n  display: block;\n}\n", ""]);
+exports.push([module.i, "label[data-v-51f045bf] {\n  text-align: right;\n}\n.card[data-v-51f045bf] {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  word-wrap: break-word;\n  background-color: #fff;\n  background-clip: border-box;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n  border-radius: 0.25rem;\n}\n.card-header[data-v-51f045bf] {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 0;\n  background-color: rgba(0, 0, 0, 0.03);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n}\n.card-header[data-v-51f045bf]:first-child {\n  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;\n}\n.card-body[data-v-51f045bf] {\n  flex: 1 1 auto;\n  min-height: 1px;\n  padding: 1.25rem;\n}\n.invalid-feedback[data-v-51f045bf] {\n  width: 100%;\n  margin-top: 0.25rem;\n  font-size: 90%;\n  color: #e3342f;\n}\n.block[data-v-51f045bf] {\n  display: block;\n}\n", ""]);
 
 // exports
 
@@ -20477,9 +20509,148 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("Hello this is Login Component.")])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("form", [
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-md-4 col-form-label text-md-right",
+                      attrs: { for: "email" }
+                    },
+                    [_vm._v("Email Address:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("input", {
+                      staticClass: "form-control ",
+                      attrs: {
+                        id: "email",
+                        type: "email",
+                        name: "email",
+                        value: "",
+                        required: "",
+                        autocomplete: "email",
+                        autofocus: ""
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "invalid-feedback",
+                        attrs: { role: "alert" }
+                      },
+                      [_c("strong")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-md-4 col-form-label text-md-right",
+                      attrs: { for: "password" }
+                    },
+                    [_vm._v("Password")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("input", {
+                      staticClass:
+                        "form-control @error('password') is-invalid @enderror",
+                      attrs: {
+                        id: "password",
+                        type: "password",
+                        name: "password",
+                        required: "",
+                        autocomplete: "current-password"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "invalid-feedback",
+                        attrs: { role: "alert" }
+                      },
+                      [_c("strong")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("div", { staticClass: "col-md-6 offset-md-4" }, [
+                    _c("div", { staticClass: "form-check" }, [
+                      _c("input", {
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "checkbox",
+                          name: "remember",
+                          id: "remember"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "remember" }
+                        },
+                        [
+                          _vm._v(
+                            "Remember Me\n                                    "
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row mb-0" }, [
+                  _c("div", { staticClass: "col-md-8 offset-md-4" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                    Login\n                                "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "btn btn-link", attrs: { href: "" } },
+                      [_vm._v("Forgot Your Password?")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -20535,8 +20706,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.name.val,
-                          expression: "name.val"
+                          value: _vm.name,
+                          expression: "name"
                         }
                       ],
                       staticClass: "form-control",
@@ -20549,26 +20720,27 @@ var render = function() {
                         autocomplete: "name",
                         autofocus: ""
                       },
-                      domProps: { value: _vm.name.val },
+                      domProps: { value: _vm.name },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.name, "val", $event.target.value)
+                          _vm.name = $event.target.value
                         }
                       }
                     }),
                     _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticClass: "invalid-feedback",
-                        class: { block: _vm.name.isValid },
-                        attrs: { role: "alert" }
-                      },
-                      [_c("strong", [_vm._v(_vm._s(_vm.name.msg))])]
-                    )
+                    _vm.errors.name
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [_c("strong", [_vm._v(_vm._s(_vm.errors.name[0]))])]
+                        )
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -20588,8 +20760,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.email.val,
-                          expression: "email.val"
+                          value: _vm.email,
+                          expression: "email"
                         }
                       ],
                       staticClass: "form-control",
@@ -20601,26 +20773,27 @@ var render = function() {
                         required: "",
                         autocomplete: "email"
                       },
-                      domProps: { value: _vm.email.val },
+                      domProps: { value: _vm.email },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.email, "val", $event.target.value)
+                          _vm.email = $event.target.value
                         }
                       }
                     }),
                     _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticClass: "invalid-feedback",
-                        class: { block: _vm.email.isValid },
-                        attrs: { role: "alert" }
-                      },
-                      [_c("strong", [_vm._v(_vm._s(_vm.email.msg))])]
-                    )
+                    _vm.errors.email
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [_c("strong", [_vm._v(_vm._s(_vm.errors.email[0]))])]
+                        )
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -20640,8 +20813,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.password.val,
-                          expression: "password.val"
+                          value: _vm.password,
+                          expression: "password"
                         }
                       ],
                       staticClass: "form-control",
@@ -20652,26 +20825,31 @@ var render = function() {
                         required: "",
                         autocomplete: "new-password"
                       },
-                      domProps: { value: _vm.password.val },
+                      domProps: { value: _vm.password },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.password, "val", $event.target.value)
+                          _vm.password = $event.target.value
                         }
                       }
                     }),
                     _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticClass: "invalid-feedback",
-                        class: { block: _vm.password.isValid },
-                        attrs: { role: "alert" }
-                      },
-                      [_c("strong", [_vm._v(_vm._s(_vm.password.msg))])]
-                    )
+                    _vm.errors.password
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [
+                            _c("strong", [
+                              _vm._v(_vm._s(_vm.errors.password[0]))
+                            ])
+                          ]
+                        )
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -20691,8 +20869,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.password_confirmation.val,
-                          expression: "password_confirmation.val"
+                          value: _vm.password_confirmation,
+                          expression: "password_confirmation"
                         }
                       ],
                       staticClass: "form-control",
@@ -20703,36 +20881,31 @@ var render = function() {
                         required: "",
                         autocomplete: "new-password"
                       },
-                      domProps: { value: _vm.password_confirmation.val },
+                      domProps: { value: _vm.password_confirmation },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(
-                            _vm.password_confirmation,
-                            "val",
-                            $event.target.value
-                          )
+                          _vm.password_confirmation = $event.target.value
                         }
                       }
                     }),
                     _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticClass: "invalid-feedback",
-                        class: {
-                          block: _vm.password_confirmation.isValid
-                        },
-                        attrs: { role: "alert" }
-                      },
-                      [
-                        _c("strong", [
-                          _vm._v(_vm._s(_vm.password_confirmation.msg))
-                        ])
-                      ]
-                    )
+                    _vm.errors.password
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [
+                            _c("strong", [
+                              _vm._v(_vm._s(_vm.errors.password[1]))
+                            ])
+                          ]
+                        )
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
