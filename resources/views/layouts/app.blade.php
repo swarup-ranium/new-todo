@@ -14,7 +14,7 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script> -->
     <!-- Styles -->
     <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
 
@@ -40,7 +40,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Todo App</a>
+                <a class="navbar-brand" href="/">Todo App</a>
             </div>
             <ul class="nav navbar-nav ">
                 @if (Route::has('login'))
@@ -84,7 +84,7 @@
                 </li>
                 @else
                 @if (Route::has('register'))
-                <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="{{ route('vue.register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 @endif
                 <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 @endif
@@ -92,7 +92,9 @@
             </ul>
         </div>
     </nav>
+    <div id="app">
     @yield('content')
+    </div>
 
     {{-- <div class="min-h-screen bg-gray-100">
         @livewire('navigation-dropdown')
@@ -112,6 +114,7 @@
     @stack('modals')
 
     @livewireScripts --}}
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
 </html>
