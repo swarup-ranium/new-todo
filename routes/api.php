@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\VueController;
 use Illuminate\Support\Facades\Route;
 
 /*
