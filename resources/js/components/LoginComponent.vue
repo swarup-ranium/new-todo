@@ -6,7 +6,7 @@
                     <div class="card-header"><h1>Sign In</h1></div>
 
                     <div class="card-body">
-                        <form>
+                        <form @submit.prevent="login">
                             <div class="form-group row">
                                 <label
                                     for="email"
@@ -24,6 +24,7 @@
                                         required
                                         autocomplete="email"
                                         autofocus
+                                        v-model="email"
                                     />
 
                                     <span class="invalid-feedback" role="alert">
@@ -47,10 +48,15 @@
                                         name="password"
                                         required
                                         autocomplete="current-password"
+                                        v-model="password"
                                     />
 
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong></strong>
+                                    <span
+                                        class="invalid-feedback"
+                                        role="alert"
+                                        v-if="errors.email"
+                                    >
+                                        <strong>{{ errors.email[0] }}</strong>
                                     </span>
                                 </div>
                             </div>
@@ -67,6 +73,7 @@
                                             type="checkbox"
                                             name="remember"
                                             id="remember"
+                                            v-model="remember"
                                         />
 
                                         <label
@@ -90,7 +97,9 @@
                                         Login
                                     </button>
 
-                                    <a class="btn btn-link" href=""
+                                    <a
+                                        class="btn btn-link"
+                                        href="/forgot-password"
                                         >Forgot Your Password?</a
                                     >
                                 </div>
@@ -105,6 +114,33 @@
 
 <script>
 export default {
+    data() {
+        return {
+            email: "",
+            password: "",
+            remember: "",
+            errors: {}
+        };
+    },
+    methods: {
+        login() {
+            let that = this;
+            this.axios
+                .post("/login", {
+                    email: this.email,
+                    password: this.password,
+                    remember: this.remember
+                })
+                .then(function(response) {
+                    // alert(response);
+                    window.location.href = "/task";
+                })
+                .catch(function(error) {
+                    that.errors = error.response.data.errors;
+                })
+                .finally(() => (this.loading = false));
+        }
+    },
     mounted() {
         console.log("Component mounted.");
     }
