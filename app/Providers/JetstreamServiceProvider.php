@@ -30,13 +30,13 @@ class JetstreamServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Fortify::registerView(function () {
-            return view('vue.auth.register');
-        });
+        // Fortify::registerView(function () {
+        //     return view('vue.auth.register');
+        // });
 
-        Fortify::loginView(function () {
-            return view('vue.auth.login');
-        });
+        // Fortify::loginView(function () {
+        //     return view('vue.auth.login');
+        // });
 
         $this->configurePermissions();
 

@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"></div>
+                    <div class="card-header"><h1>Sign In</h1></div>
 
                     <div class="card-body">
                         <form>
@@ -56,6 +56,10 @@
                             </div>
 
                             <div class="form-group row">
+                                <label
+                                    for="remember"
+                                    class="col-md-4 col-form-label text-md-right"
+                                ></label>
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
                                         <input
@@ -75,6 +79,9 @@
                             </div>
 
                             <div class="form-group row mb-0">
+                                <label
+                                    class="col-md-4 col-form-label text-md-right"
+                                ></label>
                                 <div class="col-md-8 offset-md-4">
                                     <button
                                         type="submit"
@@ -103,3 +110,44 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+label {
+    text-align: right;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-header:first-child {
+    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+.invalid-feedback {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 90%;
+    color: #e3342f;
+}
+.block {
+    display: block;
+}
+</style>
