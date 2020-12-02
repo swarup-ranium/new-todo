@@ -1,5 +1,6 @@
 {
     "php-cs-fixer.autoFixBySemicolon": true,
     "php-cs-fixer.formatHtml": true,
-    "php-cs-fixer.onsave": true
+    "php-cs-fixer.onsave": true,
+    "phpcs.executablePath": "./vendor/squizlabs/php_codesniffer/bin/phpcs"
 }

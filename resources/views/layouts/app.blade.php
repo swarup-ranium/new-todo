@@ -37,10 +37,17 @@
 </head>
 
 <body class="font-sans antialiased">
+<div id="app">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
+                @if (Route::has('login'))
+                @auth
+                <a class="navbar-brand" href="/task">Todo App</a>
+                @else 
                 <a class="navbar-brand" href="/">Todo App</a>
+                @endif
+                @endif
             </div>
             <ul class="nav navbar-nav ">
                 @if (Route::has('login'))
@@ -63,6 +70,9 @@
                 <li><a href="{{route('taskCategory.create')}}">
                         Add Task Category
                     </a>
+                </li>
+                <li>
+                <router-link :to="{name: 'createCategory'}">Create Catetgory</router-link>
                 </li>
                 <li><a href="{{route('taskCategory.index')}}">
                         Category List
@@ -92,9 +102,9 @@
             </ul>
         </div>
     </nav>
-    <div id="app">
+
     @yield('content')
-    </div>
+    
 
     {{-- <div class="min-h-screen bg-gray-100">
         @livewire('navigation-dropdown')
@@ -110,7 +120,7 @@
             {{ $slot }}
         </main>
     </div>
-
+</div>
     @stack('modals')
 
     @livewireScripts --}}

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\TaskCategory;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\TaskCategoryResource;
 use App\Http\Requests\TaskCategorySaveRequest;
 
 class TaskCategoriesController extends Controller
@@ -41,14 +42,15 @@ class TaskCategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(TaskCategorySaveRequest $request)
-    {
+    {   
         $taskCategory = new TaskCategory;
         $taskCategory->user_id = $request->user()->id;
         $taskCategory->name = $request->name;
         $taskCategory->save();
-
-        return redirect()->route('taskCategory.index')
-            ->with('success', 'Data Added successfully!');
+        TaskCategoryResource::withoutWrapping();
+        return new TaskCategoryResource($taskCategory);
+        // return redirect()->route('taskCategory.index')
+        //     ->with('success', 'Data Added successfully!');
     }
 
     /**
