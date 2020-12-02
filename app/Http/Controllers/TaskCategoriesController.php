@@ -47,7 +47,8 @@ class TaskCategoriesController extends Controller
         $taskCategory->user_id = $request->user()->id;
         $taskCategory->name = $request->name;
         $taskCategory->save();
-        return new TaskCategoryResource(['category'=>$request->name,'msg'=>'category created successfully!!!!']);
+        TaskCategoryResource::withoutWrapping();
+        return new TaskCategoryResource($taskCategory);
         // return redirect()->route('taskCategory.index')
         //     ->with('success', 'Data Added successfully!');
     }
