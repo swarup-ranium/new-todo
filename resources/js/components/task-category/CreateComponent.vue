@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       name: "",
-      errors: {}
+      errors: {},
     };
   },
   methods: {
@@ -34,22 +34,22 @@ export default {
       let that = this;
       this.axios
         .post("/api/taskCategory", {
-          name: this.name
+          name: this.name,
         })
-        .then(function(response) {
+        .then(function (response) {
           console.log(response.data);
-          window.location.href = "/taskCategory";
+          // window.location.href = "/taskCategory";
           // this.$router.push({ name: "/taskCategory" });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           that.errors = error.response.data.errors;
         })
         .finally(() => (this.loading = false));
-    }
+    },
   },
   mounted() {
     // console.log("Component mounted.");
-  }
+  },
 };
 </script>
 <style scoped>
