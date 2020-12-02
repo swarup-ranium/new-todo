@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-@include('common.errors')
+<router-view></router-view>
+<!-- @include('common.errors')
 <div class="container">
   <div>
     <h2 style="display:inline-block;">Task List </h2>
@@ -82,5 +83,5 @@
       </tbody>
     </table>
   </div>
-</div>
+</div> -->
 @endsection

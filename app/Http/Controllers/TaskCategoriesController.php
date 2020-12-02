@@ -41,14 +41,15 @@ class TaskCategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(TaskCategorySaveRequest $request)
-    {
+    {   
         $taskCategory = new TaskCategory;
         $taskCategory->user_id = $request->user()->id;
         $taskCategory->name = $request->name;
         $taskCategory->save();
 
-        return redirect()->route('taskCategory.index')
-            ->with('success', 'Data Added successfully!');
+        return response()->json('Category successfully added');
+        // return redirect()->route('taskCategory.index')
+        //     ->with('success', 'Data Added successfully!');
     }
 
     /**
