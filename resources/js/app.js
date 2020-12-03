@@ -9,6 +9,7 @@ import VueRouter from "vue-router";
 window.Vue.use(VueRouter);
 window.Vue.use(VueAxios, axios);
 
+import CreateTask from "./components/task/CreateComponent.vue";
 import LoginComponent from "./components/auth/LoginComponent.vue";
 import RegisterComponent from "./components/auth/RegisterComponent.vue";
 import ListTaskCategory from "./components/task-category/ListComponent.vue";
@@ -30,6 +31,11 @@ const routes = [
     name: "editCategory",
     path: "/taskCategory/edit/:id",
     component: EditTaskCategory,
+  },
+  {
+    name: "createTask",
+    path: "/createTask/create",
+    component: CreateTask,
   },
 ];
 

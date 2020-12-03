@@ -64,7 +64,7 @@
                     <li><a href="#">Reset Password</a></li>
                     </ul>
                 </li> -->
-                <li><a href="{{route('task.create')}}">
+                <!-- <li><a href="{{route('task.create')}}">
                         Add Task
                     </a>
                 <li><a href="{{route('taskCategory.create')}}">
@@ -74,6 +74,9 @@
                 <li><a href="{{route('taskCategory.index')}}">
                         Category List
                     </a>
+                </li> -->
+                <li>
+                <router-link :to="{name: 'createTask'}">Create Task</router-link>
                 </li>
                 <li>
                 <router-link :to="{name: 'createCategory'}">Create Catetgory</router-link>

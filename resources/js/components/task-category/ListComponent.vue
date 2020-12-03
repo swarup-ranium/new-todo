@@ -33,12 +33,6 @@
               >
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
-              <!-- <form method="post" class="delete_form" action="">
-                <input type="hidden" name="_method" value="DELETE" />
-                <button type="submit" class="btn btn-xs btn-danger">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>
-              </form> -->
             </td>
           </tr>
           <tr v-if="categories == ''">
@@ -62,8 +56,8 @@ export default {
     let app = this;
     app.successMsg = app.$route.params.msg;
     this.axios.get("/api/taskCategory").then((response) => {
+      // console.log(response.data);
       this.categories = response.data;
-      console.log(this.categories);
     });
   },
   methods: {

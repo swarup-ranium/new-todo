@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskCategoriesController;
 
 /*
@@ -20,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::resource('task', TaskController::class);
     Route::resource('taskCategory', TaskCategoriesController::class);
 });
 

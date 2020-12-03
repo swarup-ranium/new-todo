@@ -21,7 +21,10 @@ class TaskCategoriesController extends Controller
     public function index(Request $request)
     {
         $categories = $request->user()->taskCategories;
-        return $categories->toArray();
+
+        TaskCategoryResource::withoutWrapping();
+        return new TaskCategoryResource($categories);
+        // return $categories->toArray();
         // return view('task-category.index', compact('categories'));
     }
 
