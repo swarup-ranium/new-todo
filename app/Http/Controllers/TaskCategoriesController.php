@@ -21,8 +21,8 @@ class TaskCategoriesController extends Controller
     public function index(Request $request)
     {
         $categories = $request->user()->taskCategories;
-
-        return view('task-category.index', compact('categories'));
+        return $categories->toArray();
+        // return view('task-category.index', compact('categories'));
     }
 
     /**
@@ -47,6 +47,7 @@ class TaskCategoriesController extends Controller
         $taskCategory->user_id = $request->user()->id;
         $taskCategory->name = $request->name;
         $taskCategory->save();
+
         TaskCategoryResource::withoutWrapping();
         return new TaskCategoryResource($taskCategory);
         // return redirect()->route('taskCategory.index')
@@ -59,9 +60,10 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TaskCategory $taskCategory)
     {
-        //
+        TaskCategoryResource::withoutWrapping();
+        return new TaskCategoryResource($taskCategory);        
     }
 
     /**
@@ -92,8 +94,10 @@ class TaskCategoriesController extends Controller
         $taskCategory->name = $request->name;
         $taskCategory->save();
 
-        return redirect()->route('taskCategory.index')
-            ->with('success', 'Data Updated successfully!');
+        TaskCategoryResource::withoutWrapping();
+        return new TaskCategoryResource($taskCategory);  
+        // return redirect()->route('taskCategory.index')
+        //     ->with('success', 'Data Updated successfully!');
     }
 
     /**
@@ -107,7 +111,7 @@ class TaskCategoriesController extends Controller
         $this->authorize('delete', $taskCategory);
         $taskCategory->delete();
 
-        return redirect()->route('taskCategory.index')
-            ->with('success', 'Data Deleted Successfully!!!!');
+        // return redirect()->route('taskCategory.index')
+        //     ->with('success', 'Data Deleted Successfully!!!!');
     }
 }
