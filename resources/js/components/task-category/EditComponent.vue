@@ -12,8 +12,8 @@
           name="name"
           v-model="category.name"
         />
-        <span class="invalid-feedback" role="alert">
-          <strong></strong>
+        <span class="invalid-feedback" role="alert" v-if="errors.name">
+          <strong>{{ errors.name[0] }}</strong>
         </span>
       </div>
       <button class="btn btn-default">Update</button>
@@ -41,6 +41,7 @@ export default {
     return {
       categoryId: null,
       category: [],
+      errors: {},
     };
   },
   methods: {
@@ -57,11 +58,21 @@ export default {
             },
           });
         })
-        .catch(function (resp) {
-          console.log(resp);
-          alert("Could not create your company");
+        .catch(function (error) {
+          app.errors = error.response.data.errors;
+          //   console.log(error);
+          //   alert("Could not create your category");
         });
     },
   },
 };
 </script>
+
+<style scoped>
+.invalid-feedback {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 90%;
+  color: #e3342f;
+}
+</style>
