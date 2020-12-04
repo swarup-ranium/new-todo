@@ -23,12 +23,19 @@
 
 <script>
 export default {
+  data: function () {
+    return {
+      categoryId: null,
+      category: [],
+      errors: {},
+    };
+  },
   mounted() {
     let app = this;
     let id = app.$route.params.id;
     app.categoryId = id;
     axios
-      .get("/api/taskCategory/" + id)
+      .get("/api/taskCategory/" + id + "/edit")
       .then(function (resp) {
         // console.log(resp.data);
         app.category = resp.data;
@@ -37,24 +44,17 @@ export default {
         alert("Could not load your category");
       });
   },
-  data: function () {
-    return {
-      categoryId: null,
-      category: [],
-      errors: {},
-    };
-  },
   methods: {
     update() {
-      var app = this;
-      var category = app.category;
+      let app = this;
+      let category = app.category;
       axios
         .patch("/api/taskCategory/" + app.categoryId, category)
         .then(function (resp) {
           app.$router.push({
             name: "listCategory",
             params: {
-              msg: category.name + " " + "category update successfully!!",
+              msg: resp.data.name + " " + "category update successfully!!",
             },
           });
         })

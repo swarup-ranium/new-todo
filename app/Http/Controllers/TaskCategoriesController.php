@@ -23,7 +23,7 @@ class TaskCategoriesController extends Controller
         $categories = $request->user()->taskCategories;
 
         TaskCategoryResource::withoutWrapping();
-        return new TaskCategoryResource($categories);
+        return TaskCategoryResource::collection($categories);
         // return $categories->toArray();
         // return view('task-category.index', compact('categories'));
     }
@@ -63,10 +63,9 @@ class TaskCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(TaskCategory $taskCategory)
+    public function show($id)
     {
-        TaskCategoryResource::withoutWrapping();
-        return new TaskCategoryResource($taskCategory);        
+        //        
     }
 
     /**
@@ -78,9 +77,11 @@ class TaskCategoriesController extends Controller
 
     public function edit(TaskCategory $taskCategory)
     {
-        $this->authorize('view', $taskCategory);
-
-        return view('task-category.edit', compact('taskCategory'));
+        TaskCategoryResource::withoutWrapping();
+        return new TaskCategoryResource($taskCategory); 
+        
+        // $this->authorize('view', $taskCategory);
+        // return view('task-category.edit', compact('taskCategory'));
     }
 
     /**
