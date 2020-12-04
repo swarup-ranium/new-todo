@@ -37,9 +37,13 @@ export default {
           name: this.name,
         })
         .then(function (response) {
-          console.log(response.data);
-          // window.location.href = "/taskCategory";
-          // this.$router.push({ name: "/taskCategory" });
+          that.$router.push({
+            name: "listCategory",
+            params: {
+              msg: response.data.name + " " + "category added successfully!!",
+            },
+          });
+          // console.log(response.data);
         })
         .catch(function (error) {
           that.errors = error.response.data.errors;

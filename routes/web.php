@@ -19,12 +19,9 @@ Route::get('/', function () {
     return view('task.home');
 });
 
-
-// Route::resource('vue', VueController::class);
-
 Route::group(['middleware' => 'auth'], function () {
     Route::put('task/{task}/toggle-completed', [Taskcontroller::class,'toggleCompleted'])->name('task-toggle-completed');
-
+    
     Route::resource('task', TaskController::class);
 
     Route::resource('taskCategory', TaskCategoriesController::class);

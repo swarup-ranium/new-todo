@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskCategoriesController;
 
 /*
@@ -20,6 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('task/fetch-data', [Taskcontroller::class,'fetchData']);
+
+    Route::put('task/{task}/toggle-completed', [Taskcontroller::class,'toggleCompleted']);
+
+    Route::resource('task', TaskController::class);
+
     Route::resource('taskCategory', TaskCategoriesController::class);
 });
 

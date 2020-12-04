@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\TaskCategory;
+use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\TaskSaveRequest;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,6 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-
         $query = $user->tasks();
 
         if (isset($request->task_category_id)) {
@@ -29,21 +29,32 @@ class TaskController extends Controller
         }
 
         $tasks = $query->get();
-
         $categories = $user->taskCategories;
 
         return view('task.index', compact('tasks', 'categories'));
     }
 
+    public function fetchData(Request $request)
+    {
+        $user = auth()->user();
+        $query = $user->tasks();
+
+        if(isset($request->id)) {
+            $query->where('task_category_id', $request->id);
+        }
+
+        $tasks = $query->get();
+        $categories = $user->taskCategories;
+
+        TaskResource::withoutWrapping();
+        return TaskResource::collection(['categories'=> $categories,'tasks'=> $tasks]);
+    }
+
     public function toggleCompleted(Task $task)
     {
         $this->authorize('update', $task);
-
         $task->is_complete = ! $task->is_complete;
         $task->save();
-
-        return redirect()->route('task.index')
-        ->with('success', 'Status Updated successfully!');
     }
 
     /**
@@ -55,7 +66,8 @@ class TaskController extends Controller
     {
         $categories = auth()->user()->taskCategories;
 
-        return view('task.create', compact('categories'));
+        TaskResource::withoutWrapping();
+        return TaskResource::collection($categories);
     }
 
     /**
@@ -72,8 +84,8 @@ class TaskController extends Controller
         $task->task_category_id = $request->category_id;
         $task->save();
 
-        return redirect()->route('task.index')
-        ->with('success', 'Data Added successfully!');
+        TaskResource::withoutWrapping();
+        return new TaskResource($task);
     }
 
     /**
@@ -98,8 +110,8 @@ class TaskController extends Controller
         $this->authorize('view', $task);
 
         $categories = auth()->user()->taskCategories;
-
-        return view('task.edit', compact('task', 'categories'));
+        TaskResource::withoutWrapping();
+        return TaskResource::collection(['task' => $task,'categories' => $categories]);
     }
 
     /**
@@ -117,9 +129,9 @@ class TaskController extends Controller
         $task->task_category_id = $request->category_id;
         $task->is_complete = $request->is_complete;
         $task->save();
-    
-        return redirect()->route('task.index')
-            ->with('success', 'Data Updated successfully!');
+
+        TaskResource::withoutWrapping();
+        return new TaskResource($task);
     }
 
     /**
@@ -131,10 +143,10 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $this->authorize('delete', $task);
-
         $task->delete();
 
-        return redirect()->route('task.index')
-            ->with('success', 'Data Deleted Successfully!!!!');
+        TaskResource::withoutWrapping();
+        return new TaskResource($task);
     }
+
 }
