@@ -34,8 +34,8 @@ class TaskController extends Controller
         return view('task.index', compact('tasks', 'categories'));
     }
 
-    public function fetchData(Request $request) 
-    { 
+    public function fetchData(Request $request)
+    {
         $user = auth()->user();
         $query = $user->tasks();
 
@@ -51,13 +51,10 @@ class TaskController extends Controller
     }
 
     public function toggleCompleted(Task $task)
-    {    
-        $this->authorize('update', $task);  
+    {
+        $this->authorize('update', $task);
         $task->is_complete = ! $task->is_complete;
         $task->save();
-
-        // return redirect()->route('task.index')
-        // ->with('success', 'Status Updated successfully!');
     }
 
     /**
@@ -71,8 +68,6 @@ class TaskController extends Controller
 
         TaskResource::withoutWrapping();
         return TaskResource::collection($categories);
-
-        // return view('task.create', compact('categories'));
     }
 
     /**
@@ -91,9 +86,6 @@ class TaskController extends Controller
 
         TaskResource::withoutWrapping();
         return new TaskResource($task);
-
-        // return redirect()->route('task.index')
-        // ->with('success', 'Data Added successfully!');
     }
 
     /**
@@ -120,8 +112,6 @@ class TaskController extends Controller
         $categories = auth()->user()->taskCategories;
         TaskResource::withoutWrapping();
         return TaskResource::collection(['task' => $task,'categories' => $categories]);
-
-        // return view('task.edit', compact('task', 'categories'));
     }
 
     /**
@@ -142,8 +132,6 @@ class TaskController extends Controller
 
         TaskResource::withoutWrapping();
         return new TaskResource($task);
-        // return redirect()->route('task.index')
-        //     ->with('success', 'Data Updated successfully!');
     }
 
     /**
@@ -155,14 +143,10 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $this->authorize('delete', $task);
-
         $task->delete();
 
         TaskResource::withoutWrapping();
         return new TaskResource($task);
-
-        // return redirect()->route('task.index')
-        //     ->with('success', 'Data Deleted Successfully!!!!');
     }
 
 }

@@ -24,8 +24,6 @@ class TaskCategoriesController extends Controller
 
         TaskCategoryResource::withoutWrapping();
         return TaskCategoryResource::collection($categories);
-        // return $categories->toArray();
-        // return view('task-category.index', compact('categories'));
     }
 
     /**
@@ -45,7 +43,7 @@ class TaskCategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(TaskCategorySaveRequest $request)
-    {   
+    {
         $taskCategory = new TaskCategory;
         $taskCategory->user_id = $request->user()->id;
         $taskCategory->name = $request->name;
@@ -53,8 +51,6 @@ class TaskCategoriesController extends Controller
 
         TaskCategoryResource::withoutWrapping();
         return new TaskCategoryResource($taskCategory);
-        // return redirect()->route('taskCategory.index')
-        //     ->with('success', 'Data Added successfully!');
     }
 
     /**
@@ -65,7 +61,7 @@ class TaskCategoriesController extends Controller
      */
     public function show($id)
     {
-        //        
+        //
     }
 
     /**
@@ -78,10 +74,7 @@ class TaskCategoriesController extends Controller
     public function edit(TaskCategory $taskCategory)
     {
         TaskCategoryResource::withoutWrapping();
-        return new TaskCategoryResource($taskCategory); 
-        
-        // $this->authorize('view', $taskCategory);
-        // return view('task-category.edit', compact('taskCategory'));
+        return new TaskCategoryResource($taskCategory);
     }
 
     /**
@@ -99,9 +92,7 @@ class TaskCategoriesController extends Controller
         $taskCategory->save();
 
         TaskCategoryResource::withoutWrapping();
-        return new TaskCategoryResource($taskCategory);  
-        // return redirect()->route('taskCategory.index')
-        //     ->with('success', 'Data Updated successfully!');
+        return new TaskCategoryResource($taskCategory);
     }
 
     /**
@@ -115,7 +106,7 @@ class TaskCategoriesController extends Controller
         $this->authorize('delete', $taskCategory);
         $taskCategory->delete();
 
-        // return redirect()->route('taskCategory.index')
-        //     ->with('success', 'Data Deleted Successfully!!!!');
+        TaskCategoryResource::withoutWrapping();
+        return new TaskCategoryResource($taskCategory);
     }
 }

@@ -56,7 +56,6 @@ export default {
     let app = this;
     app.successMsg = app.$route.params.msg;
     this.axios.get("/api/taskCategory").then((response) => {
-      // console.log(response.data);
       this.categories = response.data;
     });
   },

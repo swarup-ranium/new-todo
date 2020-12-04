@@ -51,7 +51,6 @@ export default {
   mounted() {
     let app = this;
     this.axios.get("/api/task/create").then((response) => {
-      //   console.log(response.data);
       this.categories = response.data;
     });
   },
@@ -70,7 +69,6 @@ export default {
               msg: response.data.name + " " + "task added successfully!!",
             },
           });
-          //   console.log(response.data);
         })
         .catch(function (error) {
           app.errors = error.response.data.errors;

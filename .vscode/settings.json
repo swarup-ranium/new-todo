@@ -2,5 +2,10 @@
     "php-cs-fixer.autoFixBySemicolon": true,
     "php-cs-fixer.formatHtml": true,
     "php-cs-fixer.onsave": true,
-    "phpcs.executablePath": "./vendor/squizlabs/php_codesniffer/bin/phpcs"
+    "phpcs.executablePath": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "diffEditor.ignoreTrimWhitespace": false
 }

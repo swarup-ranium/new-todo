@@ -86,8 +86,6 @@ export default {
         })
         .catch(function (error) {
           app.errors = error.response.data.errors;
-          //   console.log(error);
-          //   alert("Could not create your category");
         });
     },
   },

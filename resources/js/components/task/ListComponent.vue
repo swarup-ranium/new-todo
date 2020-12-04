@@ -100,7 +100,6 @@ export default {
     let app = this;
     app.successMsg = app.$route.params.msg;
     this.axios.get("/api/task/fetch-data").then((response) => {
-      // console.log(response.data);
       this.tasks = response.data.tasks;
       this.categories = response.data.categories;
     });
@@ -135,9 +134,7 @@ export default {
     },
     filter(event) {
       let id = event.target.value;
-      // console.log(event.target.value);
       this.axios.get("/api/task/fetch-data?id=" + id).then((response) => {
-        // console.log(response.data);
         this.tasks = response.data.tasks;
       });
     },

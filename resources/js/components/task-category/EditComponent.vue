@@ -37,7 +37,6 @@ export default {
     axios
       .get("/api/taskCategory/" + id + "/edit")
       .then(function (resp) {
-        // console.log(resp.data);
         app.category = resp.data;
       })
       .catch(function () {
@@ -60,8 +59,6 @@ export default {
         })
         .catch(function (error) {
           app.errors = error.response.data.errors;
-          //   console.log(error);
-          //   alert("Could not create your category");
         });
     },
   },
