@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     login() {
-      this.$store.commit("login/login", {
+      this.$store.dispatch("login/login", {
         email: this.email,
         password: this.password,
         remember: this.remember,

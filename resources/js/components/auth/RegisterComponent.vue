@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     register() {
-      this.$store.commit("register/register", {
+      this.$store.dispatch("register/register", {
         name: this.name,
         email: this.email,
         password: this.password,
