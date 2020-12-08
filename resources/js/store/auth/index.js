@@ -8,15 +8,16 @@ const auth = {
       //   console.log(payload);
       if (payload.status == 200) {
         window.location.href = "/task";
-      } else if (payload.errors !== "") {
-        state.errors = payload.errors;
       }
     },
     register(state, payload) {
       console.log(payload);
       if (payload.status == 201) {
         window.location.href = "/task";
-      } else if (payload.errors !== "") {
+      }
+    },
+    errors(state, payload) {
+      if (payload.errors !== "") {
         state.errors = payload.errors;
       }
     },
@@ -35,7 +36,7 @@ const auth = {
         })
         .catch(function (error) {
           //   console.log(error.response.data.errors);
-          context.commit("login", error.response.data);
+          context.commit("errors", error.response.data);
         })
         .finally(() => (this.loading = false));
     },
@@ -54,7 +55,7 @@ const auth = {
           // window.location.href = "/task";
         })
         .catch(function (error) {
-          context.commit("register", error.response.data);
+          context.commit("errors", error.response.data);
           //   console.log(error.response.data.errors);
           // state.errors = error.response.data.errors;
         })
