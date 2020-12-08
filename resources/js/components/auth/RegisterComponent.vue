@@ -137,11 +137,11 @@ export default {
     };
   },
   computed: {
-    ...mapState("register", ["errors"]),
+    ...mapState("auth", ["errors"]),
   },
   methods: {
     register() {
-      this.$store.dispatch("register/register", {
+      this.$store.dispatch("auth/register", {
         name: this.name,
         email: this.email,
         password: this.password,

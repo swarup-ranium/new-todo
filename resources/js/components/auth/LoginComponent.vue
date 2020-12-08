@@ -110,11 +110,11 @@ export default {
     };
   },
   computed: {
-    ...mapState("login", ["errors"]),
+    ...mapState("auth", ["errors"]),
   },
   methods: {
     login() {
-      this.$store.dispatch("login/login", {
+      this.$store.dispatch("auth/login", {
         email: this.email,
         password: this.password,
         remember: this.remember,
