@@ -44,7 +44,7 @@
                 @if (Route::has('login'))
                 @auth
                 <a class="navbar-brand" href="/task">Todo App</a>
-                @else 
+                @else
                 <a class="navbar-brand" href="/">Todo App</a>
                 @endif
                 @endif
@@ -57,24 +57,6 @@
                         {{ Auth::user()->name }}
                     </a>
                 </li>
-                <!-- <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                    <li><a href="{{ route('profile.show') }}">Profile</a></li>
-                    <li><a href="#">Manage</a></li>
-                    <li><a href="#">Reset Password</a></li>
-                    </ul>
-                </li> -->
-                <!-- <li><a href="{{route('task.create')}}">
-                        Add Task
-                    </a>
-                <li><a href="{{route('taskCategory.create')}}">
-                        Add Task Category
-                    </a>
-                </li>
-                <li><a href="{{route('taskCategory.index')}}">
-                        Category List
-                    </a>
-                </li> -->
                 <li>
                 <router-link :to="{name: 'createTask'}">Create Task</router-link>
                 </li>
@@ -94,7 +76,7 @@
                     <form method="POST" action="{{ route('logout') }}" class="logout-btn">
                         @csrf
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
-            this.closest('form').submit();" style="color:white;">
+                this.closest('form').submit();" style="color:white;">
                             <span class="glyphicon glyphicon-log-out"></span> Logout</a>
                     </form>
                 </li>
@@ -110,7 +92,7 @@
     </nav>
 
     @yield('content')
-    
+
 
     {{-- <div class="min-h-screen bg-gray-100">
         @livewire('navigation-dropdown')
