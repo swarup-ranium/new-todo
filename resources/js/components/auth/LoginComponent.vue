@@ -119,25 +119,7 @@ export default {
         password: this.password,
         remember: this.remember,
       });
-      //   let that = this;
-      //   this.axios
-      //     .post("/login", {
-      //       email: this.email,
-      //       password: this.password,
-      //       remember: this.remember,
-      //     })
-      //     .then(function (response) {
-      //       // alert(response);
-      //       window.location.href = "/task";
-      //     })
-      //     .catch(function (error) {
-      //       that.errors = error.response.data.errors;
-      //     })
-      //     .finally(() => (this.loading = false));
     },
-  },
-  mounted() {
-    // console.log("Component mounted.");
   },
 };
 </script>

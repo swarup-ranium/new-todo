@@ -148,27 +148,6 @@ export default {
         password_confirmation: this.password_confirmation,
       });
     },
-    // register() {
-    // //   let that = this;
-    // //   this.axios
-    // //     .post("/register", {
-    // //       name: this.name,
-    // //       email: this.email,
-    // //       password: this.password,
-    // //       password_confirmation: this.password_confirmation,
-    // //     })
-    // //     .then(function (response) {
-    // //       // alert(response);
-    // //       window.location.href = "/task";
-    // //     })
-    // //     .catch(function (error) {
-    // //       that.errors = error.response.data.errors;
-    // //     })
-    // //     .finally(() => (this.loading = false));
-    // },
-  },
-  mounted() {
-    // console.log("Component mounted.");
   },
 };
 </script>
