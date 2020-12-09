@@ -1,13 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Auth from "./auth/index";
-import createTask from "./task-category/create";
+import TaskCategory from "./task-category/index";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
-    createTask: createTask,
+    taskCategory: TaskCategory,
     auth: Auth,
   },
 });

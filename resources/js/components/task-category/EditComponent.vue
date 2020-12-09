@@ -22,43 +22,48 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: function () {
     return {
       categoryId: null,
       category: [],
-      errors: {},
     };
   },
   mounted() {
     let app = this;
     let id = app.$route.params.id;
     app.categoryId = id;
-    axios
-      .get("/api/taskCategory/" + id + "/edit")
-      .then(function (resp) {
-        app.category = resp.data;
-      })
-      .catch(function () {
-        alert("Could not load your category");
+    this.$store
+      .dispatch("taskCategory/edit", { id: id })
+      .then(function (response) {
+        if (response.status == 200) {
+          app.category = response.data;
+        }
       });
+  },
+  computed: {
+    ...mapState("taskCategory", ["errors"]),
   },
   methods: {
     update() {
       let app = this;
       let category = app.category;
-      axios
-        .patch("/api/taskCategory/" + app.categoryId, category)
-        .then(function (resp) {
-          app.$router.push({
-            name: "listCategory",
-            params: {
-              msg: resp.data.name + " " + "category update successfully!!",
-            },
-          });
+      this.$store
+        .dispatch("taskCategory/update", {
+          id: app.categoryId,
+          category: category,
         })
-        .catch(function (error) {
-          app.errors = error.response.data.errors;
+        .then(function (response) {
+          if (response.status == 200) {
+            app.$router.push({
+              name: "listCategory",
+              params: {
+                msg:
+                  response.data.name + " " + "category update successfully!!",
+              },
+            });
+          }
         });
     },
   },
