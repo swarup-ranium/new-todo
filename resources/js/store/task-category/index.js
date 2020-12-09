@@ -1,4 +1,4 @@
-const create = {
+const taskCategory = {
   namespaced: true,
   state() {
     return { errors: {}, categories: {} };
@@ -74,4 +74,4 @@ const create = {
     },
   },
 };
-export default create;
+export default taskCategory;

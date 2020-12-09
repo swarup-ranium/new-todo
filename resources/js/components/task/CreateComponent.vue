@@ -39,41 +39,40 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      categories: [],
       name: "",
       categoryId: "",
-      errors: {},
     };
   },
   mounted() {
     let app = this;
-    this.axios.get("/api/task/create").then((response) => {
-      this.categories = response.data;
-    });
+    this.$store.dispatch("task/create");
+  },
+  computed: {
+    ...mapState("task", ["errors", "categories"]),
   },
   methods: {
     add() {
       let app = this;
-      this.axios
-        .post("/api/task", {
+      this.$store
+        .dispatch("task/store", {
           name: this.name,
-          category_id: this.categoryId,
+          categoryId: this.categoryId,
         })
         .then(function (response) {
-          app.$router.push({
-            name: "listTask",
-            params: {
-              msg: response.data.name + " " + "task added successfully!!",
-            },
-          });
-        })
-        .catch(function (error) {
-          app.errors = error.response.data.errors;
-        })
-        .finally(() => (this.loading = false));
+          console.log(response);
+          if (response.status == 201) {
+            app.$router.push({
+              name: "listTask",
+              params: {
+                msg: response.data.name + " " + "task added successfully!!",
+              },
+            });
+          }
+        });
     },
   },
 };
