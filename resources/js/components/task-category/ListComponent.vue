@@ -45,27 +45,39 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      categories: [],
       successMsg: "",
     };
+  },
+  computed: {
+    ...mapState("taskCategory", ["categories"]),
   },
   mounted() {
     let app = this;
     app.successMsg = app.$route.params.msg;
-    this.axios.get("/api/taskCategory").then((response) => {
-      this.categories = response.data;
-    });
+    this.$store.dispatch("taskCategory/list");
+    // this.axios.get("/api/taskCategory").then((response) => {
+    //   this.categories = response.data;
+    // });
   },
   methods: {
     deleteCategory(id, index) {
       var app = this;
-      this.axios.delete("/api/taskCategory/" + id).then((response) => {
-        app.categories.splice(index, 1);
-        app.successMsg = "Category deleted!!!";
-      });
+      this.$store
+        .dispatch("taskCategory/delete", { id: id })
+        .then(function (response) {
+          if (response.status == 200) {
+            app.categories.splice(index, 1);
+            app.successMsg = "Category deleted!!!";
+          }
+        });
+      // this.axios.delete("/api/taskCategory/" + id).then((response) => {
+      //   app.categories.splice(index, 1);
+      //   app.successMsg = "Category deleted!!!";
+      // });
     },
   },
 };

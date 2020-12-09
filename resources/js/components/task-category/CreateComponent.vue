@@ -22,37 +22,35 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       name: "",
-      errors: {},
     };
+  },
+  computed: {
+    ...mapState("taskCategory", ["errors"]),
   },
   methods: {
     add() {
-      let that = this;
-      this.axios
-        .post("/api/taskCategory", {
+      let app = this;
+      this.$store
+        .dispatch("taskCategory/create", {
           name: this.name,
         })
         .then(function (response) {
-          that.$router.push({
-            name: "listCategory",
-            params: {
-              msg: response.data.name + " " + "category added successfully!!",
-            },
-          });
-          // console.log(response.data);
-        })
-        .catch(function (error) {
-          that.errors = error.response.data.errors;
-        })
-        .finally(() => (this.loading = false));
+          if (response.status == 201) {
+            app.$router.push({
+              name: "listCategory",
+              params: {
+                msg:
+                  response.data.name + " " + "category created successfully!!",
+              },
+            });
+          }
+        });
     },
-  },
-  mounted() {
-    // console.log("Component mounted.");
   },
 };
 </script>
