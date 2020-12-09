@@ -88,37 +88,38 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      tasks: [],
-      categories: [],
       successMsg: "",
     };
+  },
+  computed: {
+    ...mapState("task", ["categories", "tasks"]),
   },
   mounted() {
     let app = this;
     app.successMsg = app.$route.params.msg;
-    this.axios.get("/api/task/fetch-data").then((response) => {
-      this.tasks = response.data.tasks;
-      this.categories = response.data.categories;
-    });
+    this.$store.dispatch("task/list");
   },
   methods: {
     deleteTask(id, index) {
       var app = this;
-      this.axios.delete("/api/task/" + id).then((response) => {
+      this.$store.dispatch("task/delete", { id: id }).then((response) => {
         app.tasks.splice(index, 1);
         app.successMsg = response.data.name + " " + "task deleted!!!";
       });
     },
     toggleCompleted(id, index) {
       var app = this;
-      this.axios
-        .put("/api/task/" + id + "/toggle-completed")
-        .then((response) => {
-          this.tasks[index]["is_complete"] = !this.tasks[index]["is_complete"];
-          app.successMsg = "Task status updated!!!";
+      this.$store
+        .dispatch("task/toggleCompleted", { id: id })
+        .then(function (response) {
+          if (response.status == 200) {
+            app.tasks[index]["is_complete"] = !app.tasks[index]["is_complete"];
+            app.successMsg = "Task status updated!!!";
+          }
         });
     },
     taskCategory(catId) {
@@ -133,10 +134,9 @@ export default {
       return catName;
     },
     filter(event) {
+      var app = this;
       let id = event.target.value;
-      this.axios.get("/api/task/fetch-data?id=" + id).then((response) => {
-        this.tasks = response.data.tasks;
-      });
+      this.$store.dispatch("task/filter", { id: id });
     },
   },
 };

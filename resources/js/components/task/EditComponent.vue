@@ -43,49 +43,45 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: function () {
     return {
       taskId: null,
-      task: {},
-      categories: {},
-      errors: {},
     };
   },
   mounted() {
     let app = this;
     let id = app.$route.params.id;
     app.taskId = id;
-    axios
-      .get("/api/task/" + id + "/edit")
-      .then(function (resp) {
-        app.categories = resp.data.categories;
-        app.task = resp.data.task;
-      })
-      .catch(function () {
-        alert("Could not load your task");
-      });
+    this.$store.dispatch("task/edit", { id: id }).then(function (response) {
+      if (response.status == 200) {
+        app.task = response.data.task;
+        app.categories = response.data.categories;
+      }
+    });
+  },
+  computed: {
+    ...mapState("task", ["errors", "task", "categories"]),
   },
   methods: {
     update() {
       let app = this;
       let task = app.task;
-      axios
-        .put("/api/task/" + app.taskId, {
+      this.$store
+        .dispatch("task/update", {
+          id: task.id,
           name: task.name,
           category_id: task.task_category_id,
           is_complete: task.is_complete,
         })
-        .then(function (resp) {
+        .then(function (response) {
           app.$router.push({
             name: "listTask",
             params: {
-              msg: resp.data.name + " " + "task update successfully!!",
+              msg: response.data.name + " " + "task update successfully!!",
             },
           });
-        })
-        .catch(function (error) {
-          app.errors = error.response.data.errors;
         });
     },
   },
